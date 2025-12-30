@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001
+      author: Ekaterina Marchenko
+
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+              tableName: workspaces
+              schemaName: coworking
+
+      changes:
+
+        - createTable:
+            tableName: workspaces
+            schemaName: coworking
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: capacity
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: available
+                  type: boolean
+                  constraints:
+                    nullable: false

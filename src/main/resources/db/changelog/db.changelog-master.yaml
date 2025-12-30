@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/001-create-table-workspaces.yaml
+  - include:
+      file: db/changelog/002-create-table-rooms.yaml
+  - include:
+      file: db/changelog/003-create-table-bookings.yaml
+  - include:
+      file: db/changelog/004-insert-initial-data.yaml

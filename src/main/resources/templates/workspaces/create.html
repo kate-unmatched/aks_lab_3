@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header('Create Workspace')"></head>
+
+<body>
+<div class="container mt-5" style="max-width: 600px;">
+
+    <h2 class="fw-bold mb-4">Create Workspace</h2>
+
+    <form th:action="@{/workspaces/create}" th:object="${workspace}" method="post" class="card p-4 shadow-sm">
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Name</label>
+            <input type="text" class="form-control"
+                   th:field="*{name}" placeholder="Enter workspace name" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Type</label>
+            <select class="form-select" th:field="*{type}">
+                <option th:each="t : ${T(com.coworking.booking.entity.WorkspaceType).values()}"
+                        th:value="${t}"
+                        th:text="${t}">
+                </option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Capacity</label>
+            <input type="number" class="form-control"
+                   th:field="*{capacity}" placeholder="Number of seats" min="1" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mt-3">
+            Create Workspace
+        </button>
+
+        <a href="/workspaces/list" class="btn btn-outline-secondary w-100 mt-2">
+            Cancel
+        </a>
+    </form>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

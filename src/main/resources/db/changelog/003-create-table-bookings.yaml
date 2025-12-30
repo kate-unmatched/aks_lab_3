@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003
+      author: Ekaterina Marchenko
+
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+              tableName: bookings
+              schemaName: coworking
+
+      changes:
+
+        - createTable:
+            tableName: bookings
+            schemaName: coworking
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: booked_by
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start_time
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_time
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: room_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableSchemaName: coworking
+            baseTableName: bookings
+            baseColumnNames: room_id
+            referencedTableSchemaName: coworking
+            referencedTableName: rooms
+            referencedColumnNames: id
+            constraintName: fk_bookings_room

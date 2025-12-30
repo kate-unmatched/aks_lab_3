@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header('Create Booking')"></head>
+
+<body>
+<div class="container mt-4">
+
+    <h2 class="mb-3">Create Booking</h2>
+
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+    <form th:action="@{|/rooms/${room.id}/bookings|}" method="post" th:object="${booking}">
+        <div class="mb-3">
+            <label class="form-label">Start Time</label>
+            <input id="startTime" type="datetime-local" class="form-control" th:field="*{startTime}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">End Time</label>
+            <input id="endTime" type="datetime-local" class="form-control" th:field="*{endTime}">
+            <div id="timeError" class="text-danger mt-1" style="display:none;">
+                End time must be later than start time.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Booked By</label>
+            <input type="text" class="form-control" th:field="*{bookedBy}">
+        </div>
+
+        <button id="submitBtn" type="submit" class="btn btn-primary">Create</button>
+    </form>
+
+    <script>
+        const start = document.getElementById("startTime");
+        const end = document.getElementById("endTime");
+        const error = document.getElementById("timeError");
+        const submit = document.getElementById("submitBtn");
+
+        function validateTimes() {
+            const startVal = start.value;
+            const endVal = end.value;
+
+            if (!startVal || !endVal) {
+                error.style.display = "none";
+                submit.disabled = false;
+                return;
+            }
+
+            if (new Date(endVal) <= new Date(startVal)) {
+                error.style.display = "block";
+                submit.disabled = true;
+            } else {
+                error.style.display = "none";
+                submit.disabled = false;
+            }
+        }
+
+        start.addEventListener("change", () => {
+            end.min = start.value;
+
+            // если конец раньше начала - сбрасываем
+            if (end.value && new Date(end.value) <= new Date(start.value)) {
+                end.value = "";
+            }
+
+            validateTimes();
+        });
+
+        end.addEventListener("change", validateTimes);
+    </script>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

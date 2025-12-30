@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002
+      author: Ekaterina Marchenko
+
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+              tableName: rooms
+              schemaName: coworking
+
+      changes:
+
+        - createTable:
+            tableName: rooms
+            schemaName: coworking
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: room_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: seats
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: available
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: workspace_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableSchemaName: coworking
+            baseTableName: rooms
+            baseColumnNames: workspace_id
+            referencedTableSchemaName: coworking
+            referencedTableName: workspaces
+            referencedColumnNames: id
+            constraintName: fk_rooms_workspace

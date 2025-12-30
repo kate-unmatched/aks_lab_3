@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header('Error')"></head>
+
+<body>
+<div class="container mt-4">
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">Error</h4>
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <a href="javascript:history.back()" class="btn btn-secondary">⬅ Back</a>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

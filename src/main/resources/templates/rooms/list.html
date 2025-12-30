@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header('Rooms')"></head>
+
+<body>
+<div class="container mt-4">
+
+    <h2 class="fw-bold" th:text="'Rooms in ' + ${workspace.name}"></h2>
+
+    <a th:href="@{|/workspaces/${workspace.id}/rooms/create|}" class="btn btn-primary my-3">
+        Add Room
+    </a>
+
+    <a href="/workspaces/list" class="btn btn-secondary my-3">
+        ← Back to Workspaces
+    </a>
+
+    <div class="row g-4">
+        <div class="col-md-4" th:each="room : ${rooms}">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold" th:text="${room.roomName}"></h5>
+
+                    <p class="text-muted">Seats:
+                        <span th:text="${room.seats}"></span>
+                    </p>
+
+                    <p>
+                        Available:
+                        <span th:text="${room.available} ? 'Yes' : 'No'"></span>
+                    </p>
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <a th:href="@{|/workspaces/${workspace.id}/rooms/${room.id}/edit|}"
+                           class="btn btn-outline-secondary btn-sm">
+                            Edit
+                        </a>
+
+                        <a th:href="@{|/rooms/${room.id}/bookings|}"
+                           class="btn btn-outline-primary btn-sm">
+                            Bookings
+                        </a>
+
+                        <form th:action="@{|/workspaces/${workspace.id}/rooms/${room.id}/delete|}" method="post">
+                            <button class="btn btn-outline-danger btn-sm">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

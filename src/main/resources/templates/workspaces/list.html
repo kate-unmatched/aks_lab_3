@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header('Workspaces')"></head>
+
+<body>
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Workspaces</h2>
+        <a href="/workspaces/create" class="btn btn-primary">
+            ➕ Add Workspace
+        </a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4" th:each="ws : ${workspaces}">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold" th:text="${ws.name}"></h5>
+
+                    <p class="text-muted mb-2">
+                        Type:
+                        <span class="fw-semibold" th:text="${ws.type}"></span>
+                    </p>
+
+                    <p class="text-muted mb-3">
+                        Capacity:
+                        <span class="fw-semibold" th:text="${ws.capacity}">10</span>
+                    </p>
+
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{|/workspaces/${ws.id}/rooms|}"
+                           class="btn btn-outline-primary btn-sm btn-action">
+                            Rooms
+                        </a>
+
+                        <a th:href="@{|/workspaces/${ws.id}/edit|}"
+                           class="btn btn-outline-secondary btn-sm btn-action">
+                            Edit
+                        </a>
+
+                        <form th:action="@{|/workspaces/${ws.id}|}" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button class="btn btn-outline-danger btn-sm btn-action">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
