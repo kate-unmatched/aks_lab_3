@@ -4,24 +4,31 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.*;
 
+@JacksonXmlRootElement(localName = "booking")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JacksonXmlRootElement(localName = "room")
-public class RoomDto {
+public class BookingDto {
 
     @JacksonXmlProperty
     private Long id;
 
-    @JacksonXmlProperty(localName = "name")
-    private String roomName;
+    @JacksonXmlProperty
+    private String bookedBy;
 
-    @JacksonXmlProperty(localName = "seats")
-    private Integer seats;
+    // ISO-строки для UI / JSON / XML
+    @JacksonXmlProperty
+    private String startTime;
 
     @JacksonXmlProperty
-    private Boolean available;
+    private String endTime;
+
+    @JacksonXmlProperty
+    private Long roomId;
+
+    @JacksonXmlProperty
+    private String roomName;
 
     @JacksonXmlProperty
     private Long workspaceId;
