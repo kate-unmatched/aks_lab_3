@@ -17,7 +17,6 @@ public class BookingDto {
     @JacksonXmlProperty
     private String bookedBy;
 
-    // ISO-строки для UI / JSON / XML
     @JacksonXmlProperty
     private String startTime;
 

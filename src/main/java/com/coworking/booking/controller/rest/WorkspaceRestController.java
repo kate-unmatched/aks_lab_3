@@ -18,7 +18,6 @@ public class WorkspaceRestController implements WorkspaceRestApi {
         this.workspaceService = workspaceService;
     }
 
-    // 📌 список
     @Override
     public WorkspaceListDto getAll() {
         List<WorkspaceDto> items = workspaceService.getAll()
@@ -29,10 +28,8 @@ public class WorkspaceRestController implements WorkspaceRestApi {
         return new WorkspaceListDto(items);
     }
 
-    // 📌 форма СОЗДАНИЯ (UI)
     @Override
     public WorkspaceDto getForCreate() {
-        // Пустой DTO ТОЛЬКО для XSL
         return new WorkspaceDto(
                 null,
                 "",
@@ -42,36 +39,28 @@ public class WorkspaceRestController implements WorkspaceRestApi {
         );
     }
 
-    // 📌 форма РЕДАКТИРОВАНИЯ (UI)
     @Override
     public WorkspaceDto getForEdit(Long id) {
         Workspace workspace = workspaceService.getById(id);
         return toDto(workspace);
     }
 
-    // 📌 создание (DATA)
     @Override
     public WorkspaceDto create(WorkspaceDto dto) {
         Workspace created = workspaceService.create(fromDto(dto));
         return toDto(created);
     }
 
-    // 📌 обновление (DATA)
     @Override
     public WorkspaceDto update(Long id, WorkspaceDto dto) {
         Workspace updated = workspaceService.update(id, fromDto(dto));
         return toDto(updated);
     }
 
-    // 📌 удаление (DATA)
     @Override
     public void delete(Long id) {
         workspaceService.delete(id);
     }
-
-    /* =========================
-       MAPPING
-       ========================= */
 
     private WorkspaceDto toDto(Workspace workspace) {
         return new WorkspaceDto(

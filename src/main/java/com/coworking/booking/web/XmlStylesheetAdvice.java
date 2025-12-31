@@ -22,7 +22,6 @@ public class XmlStylesheetAdvice implements ResponseBodyAdvice<Object> {
             MethodParameter returnType,
             Class<? extends HttpMessageConverter<?>> converterType
     ) {
-        // Применяем ко всем ответам, фильтруем по Content-Type ниже
         return true;
     }
 
@@ -45,22 +44,18 @@ public class XmlStylesheetAdvice implements ResponseBodyAdvice<Object> {
         }
 
         try {
-            // сериализуем объект в XML
             String xmlBody = xmlMapper.writeValueAsString(body);
 
-            // определяем, какой XSL подключать
             String path = request.getURI().getPath();
-            String xslPath;
+            String xslPath = null;
 
-            if (path.endsWith("/new")) {
-                xslPath = "/xsl/workspace-create.xsl";
-            } else if (path.matches(".*/api/v2/workspaces/\\d+$")) {
-                xslPath = "/xsl/workspace-edit.xsl";
-            } else {
-                xslPath = "/xsl/workspaces.xsl";
-            }
+            if (path.endsWith("/bookings/new")) {
+                xslPath = "/xsl/booking-create.xsl";
 
-            if (path.endsWith("/rooms/new")) {
+            } else if (path.endsWith("/bookings")) {
+                xslPath = "/xsl/bookings.xsl";
+
+            } else if (path.endsWith("/rooms/new")) {
                 xslPath = "/xsl/room-create.xsl";
 
             } else if (path.contains("/rooms/") && path.endsWith("/edit")) {
@@ -68,31 +63,28 @@ public class XmlStylesheetAdvice implements ResponseBodyAdvice<Object> {
 
             } else if (path.endsWith("/rooms")) {
                 xslPath = "/xsl/rooms.xsl";
+
+            } else if (path.endsWith("/workspaces/new")) {
+                xslPath = "/xsl/workspace-create.xsl";
+
+            } else if (path.contains("/workspaces/") && path.endsWith("/edit")) {
+                xslPath = "/xsl/workspace-edit.xsl";
+
+            } else if (path.endsWith("/workspaces")) {
+                xslPath = "/xsl/workspaces.xsl";
             }
 
-            if (path.endsWith("/bookings/new")) {
-                xslPath = "/xsl/booking-create.xsl";
-
-            } else if (path.endsWith("/bookings")) {
-                xslPath = "/xsl/bookings.xsl";
-            }
-
-
-
-            // финальный XML с processing instruction
             String finalXml = """
                 <?xml version="1.0" encoding="UTF-8"?>
                 <?xml-stylesheet type="text/xsl" href="%s"?>
                 %s
                 """.formatted(xslPath, xmlBody);
 
-            // пишем ответ вручную
             servletResponse.getServletResponse().setContentType("application/xml");
             servletResponse.getServletResponse().setCharacterEncoding(StandardCharsets.UTF_8.name());
             servletResponse.getServletResponse().getWriter().write(finalXml);
             servletResponse.getServletResponse().getWriter().flush();
 
-            // ⛔ ВАЖНО: Spring больше ничего не сериализует
             return null;
 
         } catch (Exception e) {

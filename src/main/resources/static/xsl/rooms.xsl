@@ -15,13 +15,13 @@
 
                 <div class="page">
 
-                    <!-- HEADER -->
                     <div class="header">
                         <h1>Rooms</h1>
 
                         <div class="actions">
                             <button class="btn primary"
-                                    onclick="location.href='rooms/new'">
+                                    type="button"
+                                    onclick="location.href='/api/v2/workspaces/{rooms/room[1]/workspaceId}/rooms/new'">
                                 + Add Room
                             </button>
 

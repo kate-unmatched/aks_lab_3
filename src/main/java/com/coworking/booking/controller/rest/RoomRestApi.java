@@ -1,7 +1,7 @@
 package com.coworking.booking.controller.rest;
 
 import com.coworking.booking.dto.RoomDto;
-import com.coworking.booking.dto.RoomListDto;
+import com.coworking.booking.dto.RoomsListDto;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,43 +14,32 @@ import org.springframework.web.bind.annotation.*;
 )
 public interface RoomRestApi {
 
-    // список комнат
     @GetMapping
-    RoomListDto getAll(@PathVariable Long workspaceId);
+    RoomsListDto getAll(@PathVariable("workspaceId") Long workspaceId);
 
-    // форма создания (XML + XSL)
     @GetMapping("/new")
-    RoomDto getForCreate(@PathVariable Long workspaceId);
+    RoomDto getForCreate(@PathVariable("workspaceId") Long workspaceId);
 
-    // форма редактирования (XML + XSL)
     @GetMapping("/{roomId}/edit")
-    RoomDto getForEdit(@PathVariable Long workspaceId,
-                       @PathVariable Long roomId);
+    RoomDto getForEdit(@PathVariable("workspaceId") Long workspaceId,
+                       @PathVariable("roomId") Long roomId);
 
-    // создание
     @PostMapping(
             consumes = {
                     MediaType.APPLICATION_JSON_VALUE,
                     MediaType.APPLICATION_XML_VALUE
             }
     )
-    RoomDto create(@PathVariable Long workspaceId,
+    RoomDto create(@PathVariable("workspaceId") Long workspaceId,
                    @RequestBody RoomDto dto);
 
-    // обновление
-    @PutMapping(
-            value = "/{roomId}",
-            consumes = {
-                    MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.APPLICATION_XML_VALUE
-            }
-    )
-    RoomDto update(@PathVariable Long workspaceId,
-                   @PathVariable Long roomId,
+    @PutMapping("/{roomId}")
+    RoomDto update(@PathVariable("workspaceId") Long workspaceId,
+                   @PathVariable("roomId") Long roomId,
                    @RequestBody RoomDto dto);
 
-    // удаление
     @DeleteMapping("/{roomId}")
-    void delete(@PathVariable Long workspaceId,
-                @PathVariable Long roomId);
+    void delete(@PathVariable("workspaceId") Long workspaceId,
+                @PathVariable("roomId") Long roomId);
 }
+

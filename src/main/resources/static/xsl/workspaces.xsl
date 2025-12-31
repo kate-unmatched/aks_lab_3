@@ -9,10 +9,7 @@
             <head>
                 <title>Workspaces</title>
 
-                <!-- CSS -->
                 <link rel="stylesheet" href="/css/style.css"/>
-
-                <!-- JS для удаления -->
                 <script src="/js/workspaces.js"></script>
             </head>
 
@@ -49,19 +46,16 @@
 
                                 <div class="actions">
 
-                                    <!-- ROOMS -->
                                     <a class="btn outline"
                                        href="/api/v2/workspaces/{id}/rooms">
                                         Rooms
                                     </a>
 
-                                    <!-- EDIT -->
                                     <a class="btn outline"
-                                       href="/api/v2/workspaces/{id}">
+                                       href="/api/v2/workspaces/{id}/edit">
                                         Edit
                                     </a>
 
-                                    <!-- DELETE через JS + REST -->
                                     <a class="btn danger"
                                        href="#"
                                        onclick="deleteWorkspace({id}); return false;">

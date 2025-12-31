@@ -1,9 +1,8 @@
 package com.coworking.booking.controller.rest;
 
 import com.coworking.booking.dto.RoomDto;
-import com.coworking.booking.dto.RoomListDto;
+import com.coworking.booking.dto.RoomsListDto;
 import com.coworking.booking.entity.Room;
-import com.coworking.booking.entity.Workspace;
 import com.coworking.booking.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,14 +16,18 @@ public class RoomRestController implements RoomRestApi {
     private final RoomService roomService;
 
     @Override
-    public RoomListDto getAll(Long workspaceId) {
-        return new RoomListDto(
-                roomService.getRoomsByWorkspace(workspaceId)
-                        .stream()
-                        .map(this::toDto)
-                        .collect(Collectors.toList())
-        );
+    public RoomsListDto getAll(Long workspaceId) {
+        return RoomsListDto.builder()
+                .workspaceId(workspaceId)
+                .rooms(
+                        roomService.getByWorkspace(workspaceId)
+                                .stream()
+                                .map(this::toDto)
+                                .toList()
+                )
+                .build();
     }
+
 
     @Override
     public RoomDto getForCreate(Long workspaceId) {
@@ -56,8 +59,6 @@ public class RoomRestController implements RoomRestApi {
     public void delete(Long workspaceId, Long roomId) {
         roomService.deleteRoom(workspaceId, roomId);
     }
-
-    // ===== mapping =====
 
     private RoomDto toDto(Room room) {
         return RoomDto.builder()

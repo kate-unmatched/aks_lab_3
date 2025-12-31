@@ -1,11 +1,3 @@
-/**
- * Workspace UI logic (XSL + JS)
- * Server exposes ONLY REST API with DTOs
- */
-
-/* =========================
-   CREATE
-   ========================= */
 
 function createWorkspace() {
     const dto = collectWorkspaceDto();
@@ -29,10 +21,6 @@ function createWorkspace() {
         });
 }
 
-/* =========================
-   UPDATE
-   ========================= */
-
 function updateWorkspace(id) {
     const dto = collectWorkspaceDto();
 
@@ -55,10 +43,6 @@ function updateWorkspace(id) {
         });
 }
 
-/* =========================
-   DELETE
-   ========================= */
-
 function deleteWorkspace(id) {
     if (!confirm("Are you sure you want to delete this workspace?")) {
         return;
@@ -78,10 +62,6 @@ function deleteWorkspace(id) {
             alert("Failed to delete workspace");
         });
 }
-
-/* =========================
-   DTO HELPER
-   ========================= */
 
 function collectWorkspaceDto() {
     return {

@@ -14,19 +14,15 @@ import org.springframework.web.bind.annotation.*;
 )
 public interface WorkspaceRestApi {
 
-    // 📌 список (XML / JSON)
     @GetMapping
     WorkspaceListDto getAll();
 
-    // 📌 форма СОЗДАНИЯ (UI, XSL)
     @GetMapping("/new")
     WorkspaceDto getForCreate();
 
-    // 📌 форма РЕДАКТИРОВАНИЯ (UI, XSL)
     @GetMapping("/{id}/edit")
     WorkspaceDto getForEdit(@PathVariable Long id);
 
-    // 📌 создание (DATA, JSON / XML)
     @PostMapping(
             consumes = {
                     MediaType.APPLICATION_JSON_VALUE,
@@ -35,7 +31,6 @@ public interface WorkspaceRestApi {
     )
     WorkspaceDto create(@RequestBody WorkspaceDto dto);
 
-    // 📌 обновление (DATA, JSON / XML)
     @PutMapping(
             value = "/{id}",
             consumes = {
@@ -46,7 +41,6 @@ public interface WorkspaceRestApi {
     WorkspaceDto update(@PathVariable Long id,
                         @RequestBody WorkspaceDto dto);
 
-    // 📌 удаление (DATA)
     @DeleteMapping("/{id}")
     void delete(@PathVariable Long id);
 }
